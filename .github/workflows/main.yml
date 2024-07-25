@@ -1,5 +1,5 @@
-name: workflow
-on: my_workflow
+name: always
+on: workflow_dispatch
 jobs:
   my-jobs:
     runs-on: ubuntu-latest
