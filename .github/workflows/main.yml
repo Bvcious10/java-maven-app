@@ -1,0 +1,12 @@
+name: workflow
+on: my_workflow
+jobs:
+  my-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: first_step
+        run: echo "all is well"
+      - name: second_step
+        run: echo "all is well"
+      
+    
