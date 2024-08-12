@@ -1,24 +1,32 @@
 pipeline{
     agent any
-    parameters{
-        choice(name: 'version', choices:['1.1.0', '1.1.2', '1.1.3'], description: '')
+    environment{
+        NAME = "java-app"
+        VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+        IMAGE_REPO = "benvic"
+    }
+    tools{
+        maven 'Maven'
+    }
     }
     stages{
-        stage('build'){
+        stage('build jar'){
             steps{
                 echo 'building the application'
+                sh 'mvn package'
             }
         }
-        stage('test'){
+        stage('build docker image'){
             steps{
-                echo 'testing the application'
-                echo "${env.BUILD_ID}-${env.GIT_COMMIT}"
+                sh "docker build -t ${IMAGE_REPO}/${NAME}:${VERSION} ."
+                
             }
         }
-        stage('deploy'){
+        stage('deploy to docker repository'){
             steps{
-                echo 'deploying the application'
-                echo "deploying the application ${params.version}"
+                withDockerRegistry([credentialsId: 'docker-hub', url:'']){
+                    sh "docker push ${IMAGE_REPO}/${NAME}:${VERSION}"
+                }
             }
         }
     }
