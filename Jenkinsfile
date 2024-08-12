@@ -1,7 +1,7 @@
 pipeline{
     agent any
     parameters{
-        choice(name: 'version' choices:['1.1.0', '1.1.2', '1.1.3'])
+        choice(name: 'version', choices:['1.1.0', '1.1.2', '1.1.3'], description: '')
     }
     stages{
         stage('build'){
