@@ -30,6 +30,19 @@ pipeline{
                 }
             }
   }
+        stage('Vulnerability scan'){
+            steps{
+                sh "mvn dependency check:check"
+            }
+            post{
+                always{
+                    dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+                }
+            }
+        }
+        
+
+
   
         // stage('build docker image'){
         //     steps{
