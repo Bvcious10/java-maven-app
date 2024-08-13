@@ -32,7 +32,7 @@ pipeline{
   }
         stage('Vulnerability scan'){
             steps{
-                sh "mvn dependency check:check"
+                sh "mvn dependency-check:check"
             }
             post{
                 always{
