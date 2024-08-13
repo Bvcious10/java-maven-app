@@ -15,21 +15,22 @@ pipeline{
                 sh 'mvn package'
             }
         }
-    stage('build && SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    // Optionally use a Maven environment you've configured already
-                    withMaven(maven:'Maven 3.5') {
-                        sh 'mvn clean package sonar:sonar'
-                    }
-                    timeout(time: 2, unit: 'MINUTES') {
+        stage('SonarQube Analysis') {
+            steps{
+                withSonarQubeEnv('SonarQube'){
+                                sh "mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=java-app \
+  -Dsonar.projectName='java-app' \
+  -Dsonar.host.url=http://172.21.21.122:9000 \
+  -Dsonar.token=sqp_5c61a7d1ec486e1ccace96b25037e6c0b55858cd"
+   }
+    timeout(time: 2, unit: 'MINUTES') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
                     // true = set pipeline to UNSTABLE, false = don't
                     waitForQualityGate abortPipeline: true
                 }
-                }
             }
-        }
+  }
   
         // stage('build docker image'){
         //     steps{
