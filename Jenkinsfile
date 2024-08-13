@@ -25,18 +25,18 @@ pipeline{
             }
   }
   
-        stage('build docker image'){
-            steps{
-                sh "docker build -t ${IMAGE_REPO}/${NAME}:${VERSION} ."
+        // stage('build docker image'){
+        //     steps{
+        //         sh "docker build -t ${IMAGE_REPO}/${NAME}:${VERSION} ."
                 
-            }
-        }
-        stage('deploy to docker repository'){
-            steps{
-                withDockerRegistry([credentialsId: 'docker-hub', url:'']){
-                    sh "docker push ${IMAGE_REPO}/${NAME}:${VERSION}"
-                }
-            }
-        }
+        //     }
+        // }
+        // stage('deploy to docker repository'){
+        //     steps{
+        //         withDockerRegistry([credentialsId: 'docker-hub', url:'']){
+        //             sh "docker push ${IMAGE_REPO}/${NAME}:${VERSION}"
+        //         }
+        //     }
+        // }
     }
     }
